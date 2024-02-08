@@ -15,33 +15,41 @@ var camera = cameras[activeCamera];
 cameras.push(new Camera('Right Camera', 100, 0, 25));
 cameras.push(new Camera('Left Camera', -100, 0, 25));
 
-function main() {
+async function main() {
 
-  loadGUI();
+	await loadGUI();
 
-  function render() {
-    twgl.resizeCanvasToDisplaySize(gl.canvas);
+	await shapes.loadAllObj();
 
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    gl.enable(gl.DEPTH_TEST);
-    gl.enable(gl.CULL_FACE);
+	function render() {
+		twgl.resizeCanvasToDisplaySize(gl.canvas);
 
-    var projectionMatrix = camera.computeProjectionMatrix();
-    var viewMatrix = m4.inverse(camera.computeCameraMatrix());
+		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+		gl.enable(gl.DEPTH_TEST);
+		gl.enable(gl.CULL_FACE);
 
-    var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+		var projectionMatrix = camera.computeProjectionMatrix();
+		var viewMatrix = m4.inverse(camera.computeCameraMatrix());
 
-    gl.useProgram(meshProgramInfo.program);
+		const sharedUniforms = {
+			u_lightDirection: m4.normalize([-1, 3, 5]),
+			u_view: viewMatrix,
+			u_projection: projectionMatrix,
+			u_viewWorldPosition: m4.identity(),
+		};
 
-    models.forEach((model) => {
-      if (model) {
-        model.drawModel(viewProjectionMatrix);
-      }
-    });
-    requestAnimationFrame(render);
-  }
+		gl.useProgram(meshProgramInfo.program);
 
-  requestAnimationFrame(render);
+		models.forEach((model) => {
+			if (model) {
+				model.setUniforms(sharedUniforms);
+				model.drawModel();
+			}
+		});
+		requestAnimationFrame(render);
+	}
+
+	requestAnimationFrame(render);
 }
 
 main();
