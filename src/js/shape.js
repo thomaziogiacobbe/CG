@@ -9,6 +9,25 @@ class Shape {
 	constructor() {
 	}
 
+	getShapeByName(name) {
+		switch (name) {
+			case 'Bidet':
+				return this.getBidet();
+
+			case 'HandWasher':
+				return this.getHandWasher();
+
+			case 'Shower':
+				return this.getShower();
+
+			case 'Toilet':
+				return this.getToilet();
+
+			default:
+				break;
+		}
+	}
+
 	getBidet() {
 		return this.bidet;
 	}

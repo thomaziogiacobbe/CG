@@ -1,10 +1,11 @@
 class Model {
-	constructor(hRef, geometry, mtl) {
+	constructor(hRef, geometry, mtl, type) {
 		this.gl = gl;
 		this.meshProgramInfo = meshProgramInfo;
 		this.baseHref = hRef;
 		this.geometry = geometry;
 		this.materials = mtl;
+		this.type = type;
 
 		this.translation = {
 			x: 0,
@@ -32,6 +33,10 @@ class Model {
 		};
 
 		this.buildObject();
+	}
+
+	static buildModelFromShape(shape, type) {
+		return new Model(shape.baseHref, shape.geometries, shape.mtl, type);
 	}
 
 	setBaseHRef(hRef) {

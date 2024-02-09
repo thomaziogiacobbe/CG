@@ -1,3 +1,5 @@
+let gui;
+
 //Models Properties
 const manageModel1 = {
 	addModel: () => { addModBidet(); },
@@ -19,6 +21,16 @@ const manageModel4 = {
 	deleteModel: () => { }
 };
 
+const loadScene = {
+	loadFile: function () {
+		document.getElementById('myInput').click();
+	}
+};
+
+const saveScene = {
+	saveFile: () => { saveFile(); }
+}
+
 //Cameras Properties
 const cam = {
 	zoom: 0,
@@ -27,7 +39,15 @@ const cam = {
 
 //Load Gui
 const loadGUI = async () => {
-	let gui = new dat.GUI();
+	gui = new dat.GUI();
+
+	gui
+		.add(loadScene, 'loadFile')
+		.name('Load Scene');
+
+	gui
+		.add(saveScene, 'saveFile')
+		.name('Save Scene');
 
 	// addModel button
 	gui
@@ -125,6 +145,60 @@ function configureCameraGui(gui) {
 	}
 
 	return gui;
+}
+
+async function readFile(event) {
+	const file = event.target.files.item(0)
+	const text = await file.text();
+
+	modelsToLoad = JSON.parse(text);
+	let shape;
+
+	for (const m of modelsToLoad) {
+		shape = shapes.getShapeByName(m.type);
+		let model = Model.buildModelFromShape(shape, m.type);
+		model.translation = m.translation;
+		model.rotation = m.rotation;
+		model.scale = m.scale;
+		models.push(model);
+		addNewController(gui, model.type)
+	}
+}
+
+function download(data, filename) {
+	var file = new Blob([data], { type: "text/json" });
+	if (window.navigator.msSaveOrOpenBlob) // IE10+
+		window.navigator.msSaveOrOpenBlob(file, filename);
+	else {
+		var a = document.createElement("a"),
+			url = URL.createObjectURL(file);
+		a.href = url;
+		a.download = filename;
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(function () {
+			document.body.removeChild(a);
+			window.URL.revokeObjectURL(url);
+		}, 0);
+	}
+}
+
+function saveFile() {
+	let json = [];
+	for (const m of models) {
+		let type = m.type;
+		let translation = m.translation;
+		let rotation = m.rotation;
+		let scale = m.scale;
+		json.push({
+			type: type,
+			translation: translation,
+			rotation: rotation,
+			scale: scale
+		})
+	}
+
+	download(JSON.stringify(json), 'scene.json');
 }
 
 //Models Controllers Configs
