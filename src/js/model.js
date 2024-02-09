@@ -1,7 +1,10 @@
 class Model {
-	constructor() {
+	constructor(hRef, geometry, mtl) {
 		this.gl = gl;
 		this.meshProgramInfo = meshProgramInfo;
+		this.baseHref = hRef;
+		this.geometry = geometry;
+		this.materials = mtl;
 
 		this.translation = {
 			x: 0,
@@ -27,6 +30,8 @@ class Model {
 			defaultWhite: twgl.createTexture(gl, { src: [255, 255, 255, 255] }),
 			defaultNormal: twgl.createTexture(gl, { src: [127, 127, 255, 0] }),
 		};
+
+		this.buildObject();
 	}
 
 	setBaseHRef(hRef) {
@@ -41,24 +46,16 @@ class Model {
 		this.materials = mtl;
 	}
 
-	setUniforms(uniforms) {
-		this.sharedUniforms = uniforms
-	}
-
 	//Function to draw a model
 	drawModel() {
-		this.buildObject();
-		this.gl.bindVertexArray(this.vao);
-		twgl.setUniforms(this.meshProgramInfo, this.sharedUniforms);
 		let u_world = this.computeMatrix();
-		// let u_world = m4.translate(
-		// 	viewProjectionMatrix, 
-		// 	this.translation.x, this.translation.y, this.translation.z
-		// );
-		twgl.setUniforms(meshProgramInfo, {
-			u_world,
-		}, this.materials);
-		twgl.drawBufferInfo(this.gl, this.bufferInfo);
+		for (const {bufferInfo, vao, materials} of this.parts) {
+			this.gl.bindVertexArray(vao);
+			twgl.setUniforms(meshProgramInfo, {
+				u_world,
+			}, materials);
+			twgl.drawBufferInfo(this.gl, bufferInfo);
+		}
 	}
 
 	//Compute model matrix
@@ -139,7 +136,7 @@ class Model {
 		this.loadTexture();
 		this.specularMap();
 
-		this.geometry.map(({ material, data }) => {
+		this.parts = this.geometry.map(({ material, data }) => {
 			// Because data is just named arrays like this
 			//
 			// {
@@ -182,11 +179,15 @@ class Model {
 
 			// create a buffer for each array by calling
 			// gl.createBuffer, gl.bindBuffer, gl.bufferData
-			this.bufferInfo = twgl.createBufferInfoFromArrays(gl, data);
-			this.vao = twgl.createVAOFromBufferInfo(gl, meshProgramInfo, this.bufferInfo);
-			this.materials = {
-				...defaultMaterial,
-				...this.materials[material],
+			let bufferInfo = twgl.createBufferInfoFromArrays(gl, data);
+			let vao = twgl.createVAOFromBufferInfo(gl, meshProgramInfo, bufferInfo);
+			return {
+				materials: {
+					...defaultMaterial,
+					...this.materials[material],
+				},
+				bufferInfo,
+				vao
 			}
 		})
 	}

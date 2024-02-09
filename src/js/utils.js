@@ -5,40 +5,24 @@ const degToRad = (d) => (d * Math.PI) / 180;
 const radToDeg = (r) => (r * 180) / Math.PI;
 
 //function to add a new model in the world
-async function addModBidet() {
+function addModBidet() {
 	obj = shapes.getBidet();
-	var m = new Model();
-	m.setGeometry(obj.geometries);
-	m.setMaterial(obj.mtl);
-	m.setBaseHRef(obj.baseHref);
-	models.push(m);
+	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl));
 }
 
-async function addModHandWasher() {
+function addModHandWasher() {
 	obj = shapes.getHandWasher()
-	var m = new Model();
-	m.setGeometry(obj.geometries);
-	m.setMaterial(obj.mtl);
-	m.setBaseHRef(obj.baseHref);
-	models.push(m);
+	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl));
 }
 
-async function addModShower() {
+function addModShower() {
 	obj = shapes.getShower()
-	var m = new Model();
-	m.setGeometry(obj.geometries);
-	m.setMaterial(obj.mtl);
-	m.setBaseHRef(obj.baseHref);
-	models.push(m);
+	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl));
 }
 
-async function addModToilet() {
+function addModToilet() {
 	obj = shapes.getToilet()
-	var m = new Model();
-	m.setGeometry(obj.geometries);
-	m.setMaterial(obj.mtl);
-	m.setBaseHRef(obj.baseHref);
-	models.push(m);
+	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl));
 }
 
 //function to remove a model in the world

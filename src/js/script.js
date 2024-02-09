@@ -6,14 +6,14 @@ const models = [];
 // count of each model in world
 const modelCount = [0, 0, 0, 0];
 // cameras array with default camera
-const cameras = [new Camera('Center Camera', 0, 0, 100)];
+const cameras = [new Camera('Center Camera', 0, 0, 15)];
 // index of cameras array
 var activeCamera = 0;
 // active camera
 var camera = cameras[activeCamera];
 // create 2nd and 3rd cameras.
-cameras.push(new Camera('Right Camera', 100, 0, 25));
-cameras.push(new Camera('Left Camera', -100, 0, 25));
+cameras.push(new Camera('Right Camera', 15, 0, 10));
+cameras.push(new Camera('Left Camera', -15, 0, 10));
 
 async function main() {
 
@@ -26,7 +26,6 @@ async function main() {
 
 		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 		gl.enable(gl.DEPTH_TEST);
-		gl.enable(gl.CULL_FACE);
 
 		var projectionMatrix = camera.computeProjectionMatrix();
 		var viewMatrix = m4.inverse(camera.computeCameraMatrix());
@@ -42,7 +41,7 @@ async function main() {
 
 		models.forEach((model) => {
 			if (model) {
-				model.setUniforms(sharedUniforms);
+				twgl.setUniforms(meshProgramInfo, sharedUniforms);
 				model.drawModel();
 			}
 		});

@@ -178,14 +178,14 @@ function addNewController(gui, m) {
 	const modelScaleFolder = modelFolder.addFolder('Scale');
 
 	//Translation
-	modelTranslateFolder.add(model.translation, 'x', -200, 200, 5);
-	modelTranslateFolder.add(model.translation, 'y', -200, 200, 5);
-	modelTranslateFolder.add(model.translation, 'z', -200, 200, 5);
+	modelTranslateFolder.add(model.translation, 'x', -200, 200, 1);
+	modelTranslateFolder.add(model.translation, 'y', -200, 200, 1);
+	modelTranslateFolder.add(model.translation, 'z', -200, 200, 1);
 
 	//Rotation
-	modelRotationFolder.add(model.rotation, 'x', -20, 20, 0.5);
-	modelRotationFolder.add(model.rotation, 'y', -20, 20, 0.5);
-	modelRotationFolder.add(model.rotation, 'z', -20, 20, 0.5);
+	modelRotationFolder.add(model.rotation, 'x', -20, 20, 0.1);
+	modelRotationFolder.add(model.rotation, 'y', -20, 20, 0.1);
+	modelRotationFolder.add(model.rotation, 'z', -20, 20, 0.1);
 
 	//Scale
 	modelScaleFolder.add(model.scale, 'x', 0, 100, 0.1);
