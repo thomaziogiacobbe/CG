@@ -48,28 +48,7 @@ async function main() {
 
 		modelsInstances.forEach((model) => {
 			if (model) {
-				let t = model.type;
-				let index;
-				switch (t) {
-					case 'Bidet':
-						index = 0;
-						break;
-
-					case 'HandWasher':
-						index = 1;
-						break;
-
-					case 'Shower':
-						index = 2;
-						break;
-
-					case 'Toilet':
-						index = 3;
-						break;
-
-					default:
-						break;
-				}
+				let index = modelsIndex[model.type];
 				twgl.setUniforms(meshProgramInfo, sharedUniforms);
 				model.drawModel(models[index].parts, modelCount[index]);
 			}

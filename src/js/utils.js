@@ -4,6 +4,13 @@ const degToRad = (d) => (d * Math.PI) / 180;
 //convert from radians to degrees
 const radToDeg = (r) => (r * 180) / Math.PI;
 
+const modelsIndex = {
+	'Bidet': 0,
+	'HandWasher': 1,
+	'Shower': 2,
+	'Toilet': 3
+};
+
 // const textures = [
 // 	'default.png',
 // 	'lulutexture.jpg',
@@ -14,48 +21,26 @@ const radToDeg = (r) => (r * 180) / Math.PI;
 
 //function to add a new model in the world
 function addModBidet() {
-	obj = shapes.getBidet();
-	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Bidet'));
+	modelsInstances.push(Model.buildModelFromShape(shapes.getBidet(), 'Bidet'));
 }
 
 function addModHandWasher() {
-	obj = shapes.getHandWasher()
-	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'HandWasher'));
+	modelsInstances.push(Model.buildModelFromShape(shapes.getHandWasher(), 'HandWasher'));
 }
 
 function addModShower() {
-	obj = shapes.getShower()
-	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Shower'));
+	modelsInstances.push(Model.buildModelFromShape(shapes.getShower(), 'Shower'));
 }
 
 function addModToilet() {
-	obj = shapes.getToilet()
-	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Toilet'));
+	modelsInstances.push(Model.buildModelFromShape(shapes.getToilet(), 'Toilet'));
 }
 
 //function to remove a model in the world
 function removeMod(modelIndex) {
-	let t = modelsInstances[modelIndex].type;
-	switch (t) {
-		case 'Bidet':
-			modelCount[0] -= 1;
-			break;
-
-		case 'HandWasher':
-			modelCount[1] -= 1;
-			break;
-
-		case 'Shower':
-			modelCount[2] -= 1;
-			break;
-
-		case 'Toilet':
-			modelCount[3] -= 1;
-			break;
-
-		default:
-			break;
-	}
+	let type = modelsInstances[modelIndex].type;
+	let idx = modelsIndex[type];
+	modelCount[idx] -= 1;
 	modelsInstances.splice(modelIndex, 1, false);
 }
 

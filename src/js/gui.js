@@ -218,27 +218,23 @@ function saveFile() {
 function addNewController(gui, m) {
 	const index = modelsInstances.length - 1;
 	let model = modelsInstances[index];
-	var modelCountIndex = 0;
+	var modelCountIndex = modelsIndex[m];
 	var choosenModel = null;
 
 	switch (m) {
 		case 'Bidet':
-			modelCountIndex = 0;
 			choosenModel = manageModel1;
 			break;
 
 		case 'HandWasher':
-			modelCountIndex = 1;
 			choosenModel = manageModel2;
 			break;
 
 		case 'Shower':
-			modelCountIndex = 2;
 			choosenModel = manageModel3;
 			break;
 
 		case 'Toilet':
-			modelCountIndex = 3;
 			choosenModel = manageModel4;
 			break;
 
@@ -246,7 +242,7 @@ function addNewController(gui, m) {
 			break;
 	}
 
-	modelCount[modelCountIndex] = modelCount[modelCountIndex] + 1;
+	modelCount[modelCountIndex] += 1;
 
 	const modelFolder = gui.addFolder(m + modelCount[modelCountIndex]);
 
