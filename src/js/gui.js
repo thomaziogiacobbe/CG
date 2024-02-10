@@ -1,12 +1,12 @@
 let gui;
 
 const manageModel = {
-	addModelBidet: () => { addMod('Bidet'); },
-	addModelHandWasher: () => { addMod('HandWasher'); },
-	addModelShower: () => { addMod('Shower'); },
-	addModelToilet: () => { addMod('Toilet'); },
-	deleteModel: () => { }
-};
+	deleteModel: () => { },
+}
+
+for (const m of modelsAvailable) {
+	manageModel['addModel' + m] = () => { addMod(m); }
+}
 
 const scene = {
 	loadFile: function () {
@@ -37,34 +37,14 @@ const loadGUI = async () => {
 		.add(scene, 'saveFile')
 		.name('Save Scene');
 
-	// addModel button
-	gui
-		.add(manageModel, 'addModelBidet')
+	for (const m of modelsAvailable) {
+		gui
+		.add(manageModel, 'addModel' + m)
 		.onChange(() => {
-			setTimeout(addNewController, 50, gui, 'Bidet');
+			setTimeout(addNewController, 50, gui, m);
 		})
-		.name('Bidet');
-
-	gui
-		.add(manageModel, 'addModelHandWasher')
-		.onChange(() => {
-			setTimeout(addNewController, 50, gui, 'HandWasher');
-		})
-		.name('HandWasher');
-
-	gui
-		.add(manageModel, 'addModelShower')
-		.onChange(() => {
-			setTimeout(addNewController, 50, gui, 'Shower');
-		})
-		.name('Shower');
-
-	gui
-		.add(manageModel, 'addModelToilet')
-		.onChange(() => {
-			setTimeout(addNewController, 50, gui, 'Toilet');
-		})
-		.name('Toilet');
+		.name(m);
+	}
 
 	// camera controllers
 	gui = configureCameraGui(gui);

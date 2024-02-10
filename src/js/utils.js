@@ -4,13 +4,6 @@ const degToRad = (d) => (d * Math.PI) / 180;
 //convert from radians to degrees
 const radToDeg = (r) => (r * 180) / Math.PI;
 
-const modelsIndex = {
-	'Bidet': 0,
-	'HandWasher': 1,
-	'Shower': 2,
-	'Toilet': 3
-};
-
 // const textures = [
 // 	'default.png',
 // 	'lulutexture.jpg',

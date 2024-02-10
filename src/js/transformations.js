@@ -14,10 +14,10 @@ class Transformations {
         };
     
         this.scale = {
-            x: 1,
-            y: 1,
-            z: 1,
-            factor: 1,
+            x: 2,
+            y: 2,
+            z: 2,
+            factor: 2,
         };
     }
 

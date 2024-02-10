@@ -83,6 +83,13 @@ const fragmentShaderSource = `#version 300 es
   }
   `;
 
+const modelsAvailable = [
+	'Barrel',
+	'Chest',
+	'Spinningwheel',
+	'Clock'
+];
+
 const initializeWorld = () => {
 	const canvas = document.querySelector('#canvas');
 	const gl = canvas.getContext('webgl2');
