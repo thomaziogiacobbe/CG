@@ -52,14 +52,14 @@ class Model {
 	}
 
 	//Function to draw a model
-	drawModel() {
+	drawModel(parts, count) {
 		let u_world = this.computeMatrix();
-		for (const {bufferInfo, vao, materials} of this.parts) {
+		for (const {bufferInfo, vao, materials} of parts) {
 			this.gl.bindVertexArray(vao);
 			twgl.setUniforms(meshProgramInfo, {
 				u_world,
 			}, materials);
-			twgl.drawBufferInfo(this.gl, bufferInfo);
+			twgl.drawBufferInfo(this.gl, bufferInfo, gl.TRIANGLES, bufferInfo.numElements, 0, count);
 		}
 	}
 

@@ -203,8 +203,8 @@ function saveFile() {
 
 //Models Controllers Configs
 function addNewController(gui, m) {
-	const index = models.length - 1;
-	let model = models[index];
+	const index = modelsInstances.length - 1;
+	let model = modelsInstances[index];
 	var modelCountIndex = 0;
 	var choosenModel = null;
 

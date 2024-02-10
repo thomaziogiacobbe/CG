@@ -7,27 +7,48 @@ const radToDeg = (r) => (r * 180) / Math.PI;
 //function to add a new model in the world
 function addModBidet() {
 	obj = shapes.getBidet();
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Bidet'));
+	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Bidet'));
 }
 
 function addModHandWasher() {
 	obj = shapes.getHandWasher()
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'HandWasher'));
+	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'HandWasher'));
 }
 
 function addModShower() {
 	obj = shapes.getShower()
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Shower'));
+	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Shower'));
 }
 
 function addModToilet() {
 	obj = shapes.getToilet()
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Toilet'));
+	modelsInstances.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Toilet'));
 }
 
 //function to remove a model in the world
 function removeMod(modelIndex) {
-	models.splice(modelIndex, 1, false);
+	let t = modelsInstances[modelIndex].type;
+	switch (t) {
+		case 'Bidet':
+			modelCount[0] -= 1;
+			break;
+
+		case 'HandWasher':
+			modelCount[1] -= 1;
+			break;
+
+		case 'Toilet':
+			modelCount[2] -= 1;
+			break;
+
+		case 'Shower':
+			modelCount[3] -= 1;
+			break;
+
+		default:
+			break;
+	}
+	modelsInstances.splice(modelIndex, 1, false);
 }
 
 function saveWorld() {
