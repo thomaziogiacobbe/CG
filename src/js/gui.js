@@ -219,13 +219,13 @@ function addNewController(gui, m) {
 			choosenModel = manageModel2;
 			break;
 
-		case 'Toilet':
+		case 'Shower':
 			modelCountIndex = 2;
 			choosenModel = manageModel3;
 			break;
 
-		case 'Shower':
-			modelCountIndex = 3
+		case 'Toilet':
+			modelCountIndex = 3;
 			choosenModel = manageModel4;
 			break;
 

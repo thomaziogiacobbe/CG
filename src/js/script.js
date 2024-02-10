@@ -60,11 +60,11 @@ async function main() {
 						break;
 
 					case 'Shower':
-						index = 3;
+						index = 2;
 						break;
 
 					case 'Toilet':
-						index = 2;
+						index = 3;
 						break;
 
 					default:

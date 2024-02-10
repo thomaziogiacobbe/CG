@@ -37,11 +37,11 @@ function removeMod(modelIndex) {
 			modelCount[1] -= 1;
 			break;
 
-		case 'Toilet':
+		case 'Shower':
 			modelCount[2] -= 1;
 			break;
 
-		case 'Shower':
+		case 'Toilet':
 			modelCount[3] -= 1;
 			break;
 
