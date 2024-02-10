@@ -100,6 +100,19 @@ class Model {
 		return matrix;
 	}
 
+	// loadTextureFromTex(filename) {
+	// 	for (const material of Object.values(this.materials)) {
+	// 		Object.entries(material)
+	// 			.filter(([key]) => key.endsWith('Map'))
+	// 			.forEach(([key, _]) => {
+	// 				const textureHref = new URL(filename, this.baseHref).href;
+	// 				let texture = twgl.createTexture(gl, { src: textureHref, flipY: true });
+	// 				this.textures[filename] = texture;
+	// 				material[key] = texture;
+	// 			});
+	// 	}
+	// }
+
 	loadTexture() {
 		for (const material of Object.values(this.materials)) {
 			Object.entries(material)

@@ -4,6 +4,14 @@ const degToRad = (d) => (d * Math.PI) / 180;
 //convert from radians to degrees
 const radToDeg = (r) => (r * 180) / Math.PI;
 
+// const textures = [
+// 	'default.png',
+// 	'lulutexture.jpg',
+// 	'supermax.png',
+// 	'chadlonso.png',
+// 	'kimi.jpg'
+// ];
+
 //function to add a new model in the world
 function addModBidet() {
 	obj = shapes.getBidet();
@@ -49,15 +57,6 @@ function removeMod(modelIndex) {
 			break;
 	}
 	modelsInstances.splice(modelIndex, 1, false);
-}
-
-function saveWorld() {
-
-	//save file
-}
-
-function loadWorld(file) {
-
 }
 
 //function to update the active camera 

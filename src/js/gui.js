@@ -31,6 +31,10 @@ const saveScene = {
 	saveFile: () => { saveFile(); }
 }
 
+// const changeTex = {
+// 	changeTex: () => { changeTexture(); }
+// }
+
 //Cameras Properties
 const cam = {
 	zoom: 0,
@@ -201,6 +205,15 @@ function saveFile() {
 	download(JSON.stringify(json), 'scene.json');
 }
 
+// function changeTexture(model) {
+// 	const minCeiled = Math.ceil(0);
+// 	const maxFloored = Math.floor(4);
+// 	let num = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+// 	let randomTex = textures[num];
+// 	model.loadTextureFromTex(randomTex);
+// 	model.buildObject();
+// }
+
 //Models Controllers Configs
 function addNewController(gui, m) {
 	const index = modelsInstances.length - 1;
@@ -245,6 +258,13 @@ function addNewController(gui, m) {
 			removeMod(index);
 		})
 		.name('Delete Model');
+
+	// modelFolder
+	// 	.add(changeTex, 'changeTex')
+	// 	.onChange(() => {
+	// 		setTimeout(changeTexture, 50, model);
+	// 	})
+	// 	.name('Change Texture');
 
 	//Models folders
 	const modelTranslateFolder = modelFolder.addFolder('Translation');
