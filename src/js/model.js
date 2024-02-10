@@ -7,26 +7,6 @@ class Model {
 		this.materials = mtl;
 		this.type = type;
 
-		this.translation = {
-			x: 0,
-			y: 0,
-			z: 0
-		};
-
-		this.rotation = {
-			x: degToRad(0),
-			y: degToRad(0),
-			z: degToRad(0),
-			r: degToRad(0)
-		};
-
-		this.scale = {
-			x: 1,
-			y: 1,
-			z: 1,
-			factor: 1,
-		};
-
 		this.textures = {
 			defaultWhite: twgl.createTexture(gl, { src: [255, 255, 255, 255] }),
 			defaultNormal: twgl.createTexture(gl, { src: [127, 127, 255, 0] }),
@@ -52,53 +32,29 @@ class Model {
 	}
 
 	//Function to draw a model
-	drawModel() {
-		let u_world = this.computeMatrix();
-		for (const {bufferInfo, vao, materials} of this.parts) {
-			this.gl.bindVertexArray(vao);
+	static drawModel(parts, model, count) {
+		let u_world = Transformations.computeTransformations(model.translation, model.rotation, model.scale);
+		for (const {bufferInfo, vao, materials} of parts) {
+			gl.bindVertexArray(vao);
 			twgl.setUniforms(meshProgramInfo, {
 				u_world,
 			}, materials);
-			twgl.drawBufferInfo(this.gl, bufferInfo);
+			twgl.drawBufferInfo(gl, bufferInfo, gl.TRIANGLES, bufferInfo.numElements, 0, count);
 		}
 	}
 
-	//Compute model matrix
-	computeMatrix() {
-
-		//Scale the model keep aspect
-		const scaleVectorProportional = [
-			this.scale.factor,
-			this.scale.factor,
-			this.scale.factor,
-		];
-
-		//Scale the model
-		const scaleVector = [
-			this.scale.x,
-			this.scale.y,
-			this.scale.z,
-		];
-
-		//Translate the model
-		let matrix = m4.translate(
-			m4.identity(),
-			this.translation.x,
-			this.translation.y,
-			this.translation.z
-		);
-
-		//Rotate the model
-		matrix = m4.axisRotate(matrix, [1, 0, 0], this.rotation.x);
-		matrix = m4.axisRotate(matrix, [0, 1, 0], this.rotation.y);
-		matrix = m4.axisRotate(matrix, [0, 0, 1], this.rotation.z);
-
-		//Scale the model
-		matrix = twgl.m4.scale(matrix, scaleVectorProportional);
-		matrix = twgl.m4.scale(matrix, scaleVector);
-
-		return matrix;
-	}
+	// loadTextureFromTex(filename) {
+	// 	for (const material of Object.values(this.materials)) {
+	// 		Object.entries(material)
+	// 			.filter(([key]) => key.endsWith('Map'))
+	// 			.forEach(([key, _]) => {
+	// 				const textureHref = new URL(filename, this.baseHref).href;
+	// 				let texture = twgl.createTexture(gl, { src: textureHref, flipY: true });
+	// 				this.textures[filename] = texture;
+	// 				material[key] = texture;
+	// 			});
+	// 	}
+	// }
 
 	loadTexture() {
 		for (const material of Object.values(this.materials)) {

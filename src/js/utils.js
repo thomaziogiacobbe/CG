@@ -4,39 +4,35 @@ const degToRad = (d) => (d * Math.PI) / 180;
 //convert from radians to degrees
 const radToDeg = (r) => (r * 180) / Math.PI;
 
+const modelsIndex = {
+	'Bidet': 0,
+	'HandWasher': 1,
+	'Shower': 2,
+	'Toilet': 3
+};
+
+// const textures = [
+// 	'default.png',
+// 	'lulutexture.jpg',
+// 	'supermax.png',
+// 	'chadlonso.png',
+// 	'kimi.jpg'
+// ];
+
 //function to add a new model in the world
-function addModBidet() {
-	obj = shapes.getBidet();
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Bidet'));
-}
-
-function addModHandWasher() {
-	obj = shapes.getHandWasher()
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'HandWasher'));
-}
-
-function addModShower() {
-	obj = shapes.getShower()
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Shower'));
-}
-
-function addModToilet() {
-	obj = shapes.getToilet()
-	models.push(new Model(obj.baseHref, obj.geometries, obj.mtl, 'Toilet'));
+function addMod(model) {
+	modelsInstances.push({
+		type: model,
+		...new Transformations()
+	});
 }
 
 //function to remove a model in the world
 function removeMod(modelIndex) {
-	models.splice(modelIndex, 1, false);
-}
-
-function saveWorld() {
-
-	//save file
-}
-
-function loadWorld(file) {
-
+	let type = modelsInstances[modelIndex].type;
+	let idx = modelsIndex[type];
+	modelCount[idx] -= 1;
+	modelsInstances.splice(modelIndex, 1, false);
 }
 
 //function to update the active camera 

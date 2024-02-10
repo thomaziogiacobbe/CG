@@ -3,6 +3,8 @@ const { gl, meshProgramInfo } = initializeWorld();
 const shapes = new Shape();
 // models array
 const models = [];
+// instance models
+const modelsInstances = [];
 // count of each model in world
 const modelCount = [0, 0, 0, 0];
 // cameras array with default camera
@@ -20,6 +22,11 @@ async function main() {
 	await loadGUI();
 
 	await shapes.loadAllObj();
+
+	models.push(Model.buildModelFromShape(shapes.bidet, 'Bidet'));
+	models.push(Model.buildModelFromShape(shapes.handWasher, 'HandWasher'));
+	models.push(Model.buildModelFromShape(shapes.shower, 'Shower'));
+	models.push(Model.buildModelFromShape(shapes.toilet, 'Toilet'));
 
 	function render() {
 		twgl.resizeCanvasToDisplaySize(gl.canvas);
@@ -39,10 +46,11 @@ async function main() {
 
 		gl.useProgram(meshProgramInfo.program);
 
-		models.forEach((model) => {
+		modelsInstances.forEach((model) => {
 			if (model) {
+				let index = modelsIndex[model.type];
 				twgl.setUniforms(meshProgramInfo, sharedUniforms);
-				model.drawModel();
+				Model.drawModel(models[index].parts, model, modelCount[index]);
 			}
 		});
 		requestAnimationFrame(render);
