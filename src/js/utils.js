@@ -20,20 +20,11 @@ const modelsIndex = {
 // ];
 
 //function to add a new model in the world
-function addModBidet() {
-	modelsInstances.push(Model.buildModelFromShape(shapes.getBidet(), 'Bidet'));
-}
-
-function addModHandWasher() {
-	modelsInstances.push(Model.buildModelFromShape(shapes.getHandWasher(), 'HandWasher'));
-}
-
-function addModShower() {
-	modelsInstances.push(Model.buildModelFromShape(shapes.getShower(), 'Shower'));
-}
-
-function addModToilet() {
-	modelsInstances.push(Model.buildModelFromShape(shapes.getToilet(), 'Toilet'));
+function addMod(model) {
+	modelsInstances.push({
+		type: model,
+		...new Transformations()
+	});
 }
 
 //function to remove a model in the world

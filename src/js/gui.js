@@ -1,35 +1,40 @@
 let gui;
 
 //Models Properties
-const manageModel1 = {
-	addModel: () => { addModBidet(); },
+// const manageModel1 = {
+// 	addModel: () => { addModBidet(); },
+// 	deleteModel: () => { }
+// };
+
+// const manageModel2 = {
+// 	addModel: () => { addModHandWasher(); },
+// 	deleteModel: () => { }
+// };
+
+// const manageModel3 = {
+// 	addModel: () => { addModShower(); },
+// 	deleteModel: () => { }
+// };
+
+// const manageModel4 = {
+// 	addModel: () => { addModToilet(); },
+// 	deleteModel: () => { }
+// };
+
+const manageModel = {
+	addModelBidet: () => { addMod('Bidet'); },
+	addModelHandWasher: () => { addMod('HandWasher'); },
+	addModelShower: () => { addMod('Shower'); },
+	addModelToilet: () => { addMod('Toilet'); },
 	deleteModel: () => { }
 };
 
-const manageModel2 = {
-	addModel: () => { addModHandWasher(); },
-	deleteModel: () => { }
-};
-
-const manageModel3 = {
-	addModel: () => { addModShower(); },
-	deleteModel: () => { }
-};
-
-const manageModel4 = {
-	addModel: () => { addModToilet(); },
-	deleteModel: () => { }
-};
-
-const loadScene = {
+const scene = {
 	loadFile: function () {
 		document.getElementById('myInput').click();
-	}
-};
-
-const saveScene = {
+	},
 	saveFile: () => { saveFile(); }
-}
+};
 
 // const changeTex = {
 // 	changeTex: () => { changeTexture(); }
@@ -46,37 +51,37 @@ const loadGUI = async () => {
 	gui = new dat.GUI();
 
 	gui
-		.add(loadScene, 'loadFile')
+		.add(scene, 'loadFile')
 		.name('Load Scene');
 
 	gui
-		.add(saveScene, 'saveFile')
+		.add(scene, 'saveFile')
 		.name('Save Scene');
 
 	// addModel button
 	gui
-		.add(manageModel1, 'addModel')
+		.add(manageModel, 'addModelBidet')
 		.onChange(() => {
 			setTimeout(addNewController, 50, gui, 'Bidet');
 		})
 		.name('Bidet');
 
 	gui
-		.add(manageModel2, 'addModel')
+		.add(manageModel, 'addModelHandWasher')
 		.onChange(() => {
 			setTimeout(addNewController, 50, gui, 'HandWasher');
 		})
 		.name('HandWasher');
 
 	gui
-		.add(manageModel3, 'addModel')
+		.add(manageModel, 'addModelShower')
 		.onChange(() => {
 			setTimeout(addNewController, 50, gui, 'Shower');
 		})
 		.name('Shower');
 
 	gui
-		.add(manageModel4, 'addModel')
+		.add(manageModel, 'addModelToilet')
 		.onChange(() => {
 			setTimeout(addNewController, 50, gui, 'Toilet');
 		})
@@ -156,20 +161,16 @@ async function readFile(event) {
 	const text = await file.text();
 
 	modelsToLoad = JSON.parse(text);
-	let shape;
 
 	for (const m of modelsToLoad) {
-		shape = shapes.getShapeByName(m.type);
-		let model = Model.buildModelFromShape(shape, m.type);
-		model.translation = m.translation;
-		model.rotation = m.rotation;
-		model.scale = m.scale;
-		models.push(model);
-		addNewController(gui, model.type)
+		modelsInstances.push(m);
+		addNewController(gui, m.type);
 	}
 }
 
-function download(data, filename) {
+function saveFile() {
+	let data = JSON.stringify(modelsInstances);
+	let filename = 'scene.json';
 	var file = new Blob([data], { type: "text/json" });
 	if (window.navigator.msSaveOrOpenBlob) // IE10+
 		window.navigator.msSaveOrOpenBlob(file, filename);
@@ -187,24 +188,6 @@ function download(data, filename) {
 	}
 }
 
-function saveFile() {
-	let json = [];
-	for (const m of models) {
-		let type = m.type;
-		let translation = m.translation;
-		let rotation = m.rotation;
-		let scale = m.scale;
-		json.push({
-			type: type,
-			translation: translation,
-			rotation: rotation,
-			scale: scale
-		})
-	}
-
-	download(JSON.stringify(json), 'scene.json');
-}
-
 // function changeTexture(model) {
 // 	const minCeiled = Math.ceil(0);
 // 	const maxFloored = Math.floor(4);
@@ -219,28 +202,6 @@ function addNewController(gui, m) {
 	const index = modelsInstances.length - 1;
 	let model = modelsInstances[index];
 	var modelCountIndex = modelsIndex[m];
-	var choosenModel = null;
-
-	switch (m) {
-		case 'Bidet':
-			choosenModel = manageModel1;
-			break;
-
-		case 'HandWasher':
-			choosenModel = manageModel2;
-			break;
-
-		case 'Shower':
-			choosenModel = manageModel3;
-			break;
-
-		case 'Toilet':
-			choosenModel = manageModel4;
-			break;
-
-		default:
-			break;
-	}
 
 	modelCount[modelCountIndex] += 1;
 
@@ -248,7 +209,7 @@ function addNewController(gui, m) {
 
 	//Delete model
 	modelFolder
-		.add(choosenModel, 'deleteModel')
+		.add(manageModel, 'deleteModel')
 		.onChange(() => {
 			gui.removeFolder(modelFolder);
 			removeMod(index);

@@ -50,7 +50,7 @@ async function main() {
 			if (model) {
 				let index = modelsIndex[model.type];
 				twgl.setUniforms(meshProgramInfo, sharedUniforms);
-				model.drawModel(models[index].parts, modelCount[index]);
+				Model.drawModel(models[index].parts, model, modelCount[index]);
 			}
 		});
 		requestAnimationFrame(render);
