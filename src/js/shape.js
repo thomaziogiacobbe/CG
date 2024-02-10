@@ -1,5 +1,5 @@
 class Shape {
-	#objFolder = '/src/styles/';
+	#objFolder = '/src/assets/';
 	//definitions of the possible forms to be generated
 	bidet;
 	handWasher;

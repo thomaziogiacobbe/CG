@@ -1,26 +1,5 @@
 let gui;
 
-//Models Properties
-// const manageModel1 = {
-// 	addModel: () => { addModBidet(); },
-// 	deleteModel: () => { }
-// };
-
-// const manageModel2 = {
-// 	addModel: () => { addModHandWasher(); },
-// 	deleteModel: () => { }
-// };
-
-// const manageModel3 = {
-// 	addModel: () => { addModShower(); },
-// 	deleteModel: () => { }
-// };
-
-// const manageModel4 = {
-// 	addModel: () => { addModToilet(); },
-// 	deleteModel: () => { }
-// };
-
 const manageModel = {
 	addModelBidet: () => { addMod('Bidet'); },
 	addModelHandWasher: () => { addMod('HandWasher'); },
