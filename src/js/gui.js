@@ -187,6 +187,8 @@ function addNewController(gui, m) {
 	const modelRotationFolder = modelFolder.addFolder('Rotation');
 	const modelScaleFolder = modelFolder.addFolder('Scale');
 
+	modelFolder.add(model, 'shading', 1, 20, 1);
+
 	//Translation
 	modelTranslateFolder.add(model.translation, 'x', -200, 200, 1);
 	modelTranslateFolder.add(model.translation, 'y', -200, 200, 1);

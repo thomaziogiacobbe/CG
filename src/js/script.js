@@ -55,6 +55,7 @@ function drawScene(model) {
 		u_view: viewMatrix,
 		u_projection: projectionMatrix,
 		u_viewWorldPosition: m4.identity(),
+		shading: 20.0,
 	};
 
 	let index = modelsIndex[model.type];
@@ -134,6 +135,7 @@ async function main() {
 		modelsInstances.forEach((model) => {
 			if (model) {
 				let index = modelsIndex[model.type];
+				sharedUniforms['shading'] = model.shading;
 				twgl.setUniforms(meshProgramInfo, sharedUniforms);
 				Model.drawModel(models[index].parts, model, modelCount[index]);
 			}

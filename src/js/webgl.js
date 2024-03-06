@@ -50,6 +50,7 @@ const fragmentShaderSource = `#version 300 es
   uniform float opacity;
   uniform vec3 u_lightDirection;
   uniform vec3 u_ambientLight;
+  uniform float shading;
 
   out vec4 outColor;
 
@@ -66,6 +67,7 @@ const fragmentShaderSource = `#version 300 es
     vec3 halfVector = normalize(u_lightDirection + surfaceToViewDirection);
 
     float fakeLight = dot(u_lightDirection, normal) * .5 + .5;
+    fakeLight = ceil(fakeLight * shading) / shading; // Adjust cell shading levels here
     float specularLight = clamp(dot(normal, halfVector), 0.0, 1.0);
     vec4 specularMapColor = texture(specularMap, v_texcoord);
     vec3 effectiveSpecular = specular * specularMapColor.rgb;

@@ -9,8 +9,7 @@ class Transformations {
 		this.rotation = {
 			x: degToRad(0),
 			y: degToRad(0),
-			z: degToRad(0),
-			r: degToRad(0)
+			z: degToRad(0)
 		};
 
 		this.scale = {
@@ -19,6 +18,8 @@ class Transformations {
 			z: 2,
 			factor: 2,
 		};
+
+		this.shading = 1;
 	}
 
 	static computeTransformations(translation, rotation, scale) {
