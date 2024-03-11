@@ -37,6 +37,19 @@ const loadGUI = async () => {
 		.add(scene, 'saveFile')
 		.name('Save Scene');
 
+	const lightsFolder = gui
+		.addFolder('Lights');
+
+	for (let i = 0; i < 5; i++) {
+		let light = new Light();
+		let lightFolder = lightsFolder.addFolder('Light ' + (i + 1));
+		lightFolder.addColor(light, 'color')
+		lightFolder.add(light, 'x', -100, 100, 1)
+		lightFolder.add(light, 'y', -100, 100, 1)
+		lightFolder.add(light, 'z', -100, 100, 1);
+		lights.push(light);
+	}
+
 	for (const m of modelsAvailable) {
 		gui
 		.add(manageModel, 'addModel' + m)

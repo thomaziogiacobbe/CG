@@ -51,6 +51,8 @@ const fragmentShaderSource = `#version 300 es
   uniform vec3 u_lightDirection;
   uniform vec3 u_ambientLight;
   uniform float shading;
+  uniform vec3 u_lightsPositions[5];
+  uniform vec3 u_lightsColors[5];
 
   out vec4 outColor;
 
@@ -66,8 +68,11 @@ const fragmentShaderSource = `#version 300 es
     vec3 surfaceToViewDirection = normalize(v_surfaceToView);
     vec3 halfVector = normalize(u_lightDirection + surfaceToViewDirection);
 
-    float fakeLight = dot(u_lightDirection, normal) * .5 + .5;
-    fakeLight = ceil(fakeLight * shading) / shading; // Adjust cell shading levels here
+    vec3 fakeLight;
+    for (int i = 0; i < 5; i++) {
+      float fakeLight = max(dot(u_lightDirection, normal), 0) * u_lightsColors[i];
+    }
+    //fakeLight = ceil(fakeLight * shading) / shading; // Adjust cell shading levels here
     float specularLight = clamp(dot(normal, halfVector), 0.0, 1.0);
     vec4 specularMapColor = texture(specularMap, v_texcoord);
     vec3 effectiveSpecular = specular * specularMapColor.rgb;

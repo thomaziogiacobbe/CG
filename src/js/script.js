@@ -9,6 +9,8 @@ const modelCount = [0, 0, 0, 0];
 const modelsMenu = [];
 //Index of each model
 const modelsIndex = {};
+// lights
+const lights = [];
 
 //load menu and index
 for (let index = 0; index < modelsAvailable.length; index++) {
@@ -91,11 +93,16 @@ async function main() {
 		var projectionMatrix = camera.computeProjectionMatrix();
 		var viewMatrix = m4.inverse(camera.computeCameraMatrix());
 
+		const lightsPositions = lights.map(l => [l.x, l.y, l.z]);
+		const lightsColors = lights.map(l => l.color);
+
 		const sharedUniforms = {
 			u_lightDirection: m4.normalize([-1, 3, 5]),
 			u_view: viewMatrix,
 			u_projection: projectionMatrix,
 			u_viewWorldPosition: m4.identity(),
+			u_lightsPositions: lightsPositions,
+			u_lightsColors: lightsColors
 		};
 
 		const {width, h} = gl.canvas;
