@@ -66,6 +66,16 @@ const fragmentShaderSource = `#version 300 es
 
   out vec4 outColor;
 
+  float diffuseFactor(vec3 normal, vec3 light_direction) {
+    float df = dot(normalize(normal), normalize(light_direction));
+
+    if (gl_FrontFacing) {
+        df = -df;
+    }
+
+    return max(0.0, df);
+  }
+
   void main () {
     vec3 normal = normalize(v_normal) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
     vec3 tangent = normalize(v_tangent) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
@@ -82,7 +92,7 @@ const fragmentShaderSource = `#version 300 es
       vec3 surfaceToLightDirection = normalize(v_surfaceToLight[i]);
       vec3 halfVector = normalize(surfaceToLightDirection + surfaceToViewDirection);
 
-      float fakeLight = dot(surfaceToLightDirection, normal);
+      float fakeLight = diffuseFactor(surfaceToLightDirection, normal);
       float specularLight = clamp(dot(normal, halfVector), 0.0, 1.0);
       vec4 specularMapColor = texture(specularMap, v_texcoord);
       vec3 effectiveSpecular = specular * specularMapColor.rgb;
@@ -91,9 +101,16 @@ const fragmentShaderSource = `#version 300 es
       vec3 effectiveDiffuse = diffuse * diffuseMapColor.rgb * v_color.rgb;
       float effectiveOpacity = opacity * diffuseMapColor.a * v_color.a;
 
+      float nSteps = shading;
+      float step = sqrt(fakeLight) * nSteps;
+      step = (floor(step) + smoothstep(0.48, 0.52, fract(step))) / nSteps;
+
+      // Calculate the surface color
+      float surface_color = step * step;
+
       totalLight += vec4(
           emissive + ambient * u_ambientLight +
-          effectiveDiffuse * fakeLight +
+          effectiveDiffuse * surface_color +
           effectiveSpecular * pow(specularLight, shininess),
           effectiveOpacity);
     };
