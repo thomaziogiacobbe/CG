@@ -4,6 +4,6 @@ class Light {
         this.y = 0;
         this.z = 0;
 
-        this.color = [0, 0, 0];
+        this.color = [255, 0, 0];
     }
 }

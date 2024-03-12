@@ -97,7 +97,7 @@ async function main() {
 		const lightsColors = lights.map(l => l.color);
 
 		const sharedUniforms = {
-			u_lightDirection: m4.normalize([-1, 3, 5]),
+			u_lightDirection: m4.normalize([0, 3, 5]),
 			u_view: viewMatrix,
 			u_projection: projectionMatrix,
 			u_viewWorldPosition: m4.identity(),
